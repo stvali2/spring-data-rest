@@ -1,5 +1,7 @@
 target
 
+pom.xml.versionsBackup
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
