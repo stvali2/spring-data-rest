@@ -1,24 +1,31 @@
 package com.example.demo;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 
-@Document
+@Entity
+@Table(name = "users")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@RepositoryRestResource(collectionResourceRel = "users", path = "users")
 public class User {
-
     @Id
-    private ObjectId id;
+    @GeneratedValue
+    @EqualsAndHashCode.Include
+    private Long id;
 
     private String name;
+    private Integer age;
 
-    private int age;
-
-    @ToString.Exclude
-    @DBRef(lazy = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    @RestResource()
     private Address address;
 }

@@ -1,23 +1,32 @@
 package com.example.demo;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+@Entity
 @Data
-@Document
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@RepositoryRestResource(collectionResourceRel = "addresses", path = "addresses")
 public class Address {
     @Id
-    private ObjectId id;
+    @GeneratedValue
+    @EqualsAndHashCode.Include
+    private Long id;
 
     private String street;
 
-    @ToString.Exclude
-    @DBRef(lazy = true)
-    private List<User> users;
+    @OneToMany(mappedBy = "address")
+    private Set<User> residents = new HashSet<>();
 }
