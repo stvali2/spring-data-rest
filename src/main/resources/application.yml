@@ -24,9 +24,4 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
-    visibility:
-      field: any
-      getter: none
-      setter: none
-      is-getter: none
     default-property-inclusion: non_null
